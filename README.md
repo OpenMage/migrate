@@ -8,4 +8,4 @@ To generate patch files for a new version just run the script from the repo root
 
 ## Updating migrate script
 
-TODO
+    $ sed "s/SCRIPT_COMMIT_SHA_HERE/$(git log -1 --format=%H)/" migrate.sh > index.html
