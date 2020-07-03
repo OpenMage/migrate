@@ -49,6 +49,14 @@ do_install() {
 		EDITION_COMMUNITY)
 			installed=$(grep -A 8 'function getVersionInfo' app/Mage.php | tail -n 6 | awk '{print $3}' | sed "s/[',]//g" | grep -v '^$' | paste -sd '.' -)
 			echo "Detected that you have installed Magento Commuinity Edition $installed"
+			patchfile=$(find patches/ -maxdepth 1 -name '*.patch' | grep $installed | tail -1)
+			if [ -z "$patchfile" ]; then
+				echo "Patch file for Magento Commuinity Edition $installed not found"
+			else
+				read -p "Confirm the patch file "$patchfile" is correct and press enter to continue." input
+				git apply --3way --ignore-space-change --ignore-whitespace $patchfile
+				echo "Patch applied, make sure to resolve conflicts, test and commit the migration."
+			fi
 			;;
 		*)
 			echo "We're sorry, but the edition you have installed is not supported by this migration script."
