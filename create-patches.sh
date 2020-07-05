@@ -2,6 +2,12 @@
 
 set -e
 
+./aws-configure.sh
+if [ $? -eq 1 ];
+then
+  exit 1
+fi
+
 if ! [[ -d patches ]]; then
   ( \
     git clone -n https://github.com/OpenMage/magento-lts.git patches; \
@@ -27,10 +33,11 @@ for tag in $(git ls-remote --tags mirror | awk '{print $2}' | grep -vE "alpha|be
   git diff --binary $taghash..$targethash > magento-ce-${tag##*/}-openmage-lts-$target.patch
 done
 
+cd ../
+
 # Sync to S3
-# TODO
+aws s3 cp patches s3://openmage.migrationpatches/ --recursive --exclude "*" --include "*.patch" --profile openmage.migrationpatches
 
 # Generate the new migrate script
-cd ../
 sed "s/SCRIPT_COMMIT_SHA_HERE/$(git log -1 --format=%H)/" migrate.sh > upgrade.sh
 echo "Execute 'bash upgrade.sh' to upgrade to OpenMage $target."
