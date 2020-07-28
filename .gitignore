@@ -1,2 +1,4 @@
 patches
 upgrade.sh
+.env
+tests
