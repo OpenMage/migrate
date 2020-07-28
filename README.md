@@ -6,11 +6,15 @@ In order to upload the generated patch files to S3, AWS CLI v2 needs to be insta
 
 ## Generating patch files
 
-To generate patch files for a new version just run the script from the repo root directory:
+Before running the next script configure the AWS CLI:
 
-    $ export AWS_ACCESS_KEY_ID=
-    $ export AWS_SECRET_ACCESS_KEY=
-    $ bash create-patches.sh
+    aws configure set region eu-central-1 --profile openmage.migrationpatches
+    aws configure set aws_access_key_id ACCESS_KEY_HERE --profile openmage.migrationpatches
+    aws configure set aws_secret_access_key SECRET_KEY_HERE --profile openmage.migrationpatches
+
+To generate patch files for a new version just run the script from the repo root directory and follow the prompt:
+
+    $ bash ./create-patches.sh
 
 ## Updating migrate script
 
