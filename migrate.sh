@@ -5,29 +5,34 @@ set -e
 # See https://www.openmage.org/magento-lts/migration-guide.html for full instructions.
 #
 # This script is meant for quick and easy install via:
-#   $ curl -fsSL https://migrate.openmage.org | sh
+#
+#    $ curl -fsSL https://migrate.openmage.org | sh
+#
+# The default channel is "legacy", but you can also specify "main":
+#
+#    $ curl -fsSL https://migrate.openmage.org | CHANNEL=main sh
 
 SCRIPT_COMMIT_SHA="SCRIPT_COMMIT_SHA_HERE"
 
 nightly=1.9.4.x
-stable=v20.0.1
+legacy=v19.4.8
+main=v20.0.4
 
 # The channel to install from:
 #   * nightly
-#   * test
-#   * stable
-#   * edge (deprecated)
-DEFAULT_CHANNEL_VALUE="stable"
+#   * legacy
+#   * main
+DEFAULT_CHANNEL_VALUE="legacy"
 if [ -z "$CHANNEL" ]; then
 	CHANNEL=$DEFAULT_CHANNEL_VALUE
 fi
 
 case $CHANNEL in
-	stable)
-		version=$stable
+	legacy)
+		version=$legacy
 		;;
-	nightly)
-		version=$nightly
+	main)
+		version=$main
 		;;
 	*)
 		echo "Unknown channel: $CHANNEL"
