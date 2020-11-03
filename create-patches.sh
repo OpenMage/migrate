@@ -21,7 +21,7 @@ git log -1 $target | head -n 3
 read -p "Confirm the commit above is correct and press enter to continue." input
 targethash=$(git rev-parse $target)
 
-for tag in $(git ls-remote --tags mirror | awk '{print $2}' | grep -vE "alpha|beta|rc|{}"); do
+for tag in $(git ls-remote --tags mirror | awk '{print $2}' | grep -vE "alpha|beta|rc|{}|/1\.[1-2]|/1\.3\.[0-2]"); do
   taghash=$(git ls-remote --tags mirror | grep -vE "alpha|beta|rc" | grep $tag | tail -1 | awk '{print $1}')
   outfile=magento-ce-${tag##*/}-openmage-lts-$target.patch
   if ! [[ -f $outfile.gz ]]; then
